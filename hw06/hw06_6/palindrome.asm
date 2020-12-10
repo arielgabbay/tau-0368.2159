@@ -127,11 +127,12 @@ len_loop:
 	addi $a0, $a0, 4
 	j len_loop
 len_done:
+	sll $v0, $v0, 5
 	jr $ra
 	
 is_pali_loop:
-	or $t1, $a1, $a1
-	sll $t0, $a1, 2
+	srl $t0, $a1, 3
+	srl $t1, $t0, 2
 	or $t2, $a0, $a0
 	add $t3, $a0, $t0
 	addi $t3, $t3, -4
@@ -155,16 +156,16 @@ is_pali_recursive:
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
 	ori $v0, $zero, 1
-	slti $t0, $a1, 2
+	slti $t0, $a1, 64
 	bne $t0, $zero, pali_rec_done
-	sll $t0, $a1, 2
+	srl $t0, $a1, 3
 	addi $t0, $t0, -4
 	add $t0, $t0, $a0
 	lw $t1, 0($t0)
 	lw $t2, 0($a0)
 	or $v0, $zero, $zero
 	bne $t1, $t2, pali_rec_done
-	addi $a1, $a1, -2
+	addi $a1, $a1, -64
 	addi $a0, $a0, 4
 	jal is_pali_recursive
 pali_rec_done:
