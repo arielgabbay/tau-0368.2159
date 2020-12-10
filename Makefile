@@ -8,7 +8,7 @@ RELEVANT_SUBDIRS=
 
 define SUBDIR
 
-$1_DEPS=$$(shell find $1 -type f -a \( -name "*.S" -o -name "*.c" \) -printf "%p.o\n")
+$1_DEPS=$$(shell find $1 -maxdepth 1 -type f -a \( -name "*.S" -o -name "*.c" \) -printf "%p.o\n")
 
 ifneq ($$($1_DEPS),)
 
@@ -29,7 +29,7 @@ endif
 
 endef
 
-$(foreach subdir,$(shell find . -maxdepth 1 -mindepth 1 -type d),$(eval $(call SUBDIR,$(subdir))))
+$(foreach subdir,$(shell find . -mindepth 1 -type d),$(eval $(call SUBDIR,$(subdir))))
 
 clean: $(RELEVANT_SUBDIRS:%=clean_%)
 
