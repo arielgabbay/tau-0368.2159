@@ -1,8 +1,11 @@
 # example: make hw06/hw06_2(.out)
 # example: make hw07/test1(.inst)
 
-%.S.o: %.S
-	~/x-tools/mips-unknown-linux-uclibc/bin/mips-unknown-linux-uclibc-as -msoft-float -KPIC $^ -o $@
+hw06/%.S.o: hw06/%.S
+	~/x-tools/mips-unknown-linux-uclibc/bin/mips-unknown-linux-uclibc-as -msoft-float -O0 -KPIC $^ -o $@
+
+hw07/%.S.o: hw07/%.S
+	~/x-tools/mips-unknown-linux-uclibc/bin/mips-unknown-linux-uclibc-as -msoft-float -O0 $^ -o $@
 
 %.c.o: %.c
 	~/x-tools/mips-unknown-linux-uclibc/bin/mips-unknown-linux-uclibc-gcc -c $^ -o $@
@@ -45,6 +48,7 @@ $1.inst: $$($1_DEP)
 	echo "v2.0 raw" > $$@
 	hexdump -e '/1 "%02X"' -e '/4 " 0 0 0\n"' -v $$@.hex >> $$@
 	rm -f $$@.hex
+	~/x-tools/mips-unknown-linux-uclibc/bin/mips-unknown-linux-uclibc-objdump -d $$($1_DEP)
 
 $1: $1.inst
 
