@@ -66,6 +66,8 @@ endef
 $(foreach subdir,$(shell find hw06 -mindepth 1 -type d),$(eval $(call SUBDIR6,$(subdir))))
 $(foreach subdir,$(shell find hw07 -mindepth 1 -type d),$(eval $(call SUBDIR7,$(subdir))))
 
+all: $(RELEVANT_SUBDIRS)
+
 clean: $(RELEVANT_SUBDIRS:%=clean_%)
 
-.PHONY: clean
+.PHONY: clean all
